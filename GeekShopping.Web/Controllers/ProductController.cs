@@ -1,4 +1,5 @@
 ﻿using GeekShopping.Web.Models;
+using GeekShopping.Web.Models.Product;
 using GeekShopping.Web.Services.IServices;
 using GeekShopping.Web.Utils;
 using Microsoft.AspNetCore.Authentication;
@@ -9,10 +10,10 @@ namespace GeekShopping.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductApiServices _productService;
+        private readonly IProductApiService _productService;
         
 
-        public ProductController(IProductApiServices productService)
+        public ProductController(IProductApiService productService)
         {
             _productService = productService ?? throw new ArgumentNullException(nameof(productService));            
         }
@@ -32,7 +33,7 @@ namespace GeekShopping.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(ProductModel model)
+        public async Task<IActionResult> Create(ProductViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +61,7 @@ namespace GeekShopping.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update(ProductModel model)
+        public async Task<IActionResult> Update(ProductViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +90,7 @@ namespace GeekShopping.Web.Controllers
 
         [Authorize(Roles = Role.Admin)]
         [HttpPost]
-        public async Task<IActionResult> Delete(ProductModel model)
+        public async Task<IActionResult> Delete(ProductViewModel model)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
 

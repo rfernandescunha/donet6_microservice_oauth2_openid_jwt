@@ -1,6 +1,6 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
+using System.Net.Mime;
+using System.Reflection.Metadata;
 using System.Text.Json;
 
 namespace GeekShopping.Web.Utils
@@ -41,37 +41,56 @@ namespace GeekShopping.Web.Utils
 
         //}
 
-        public static async Task<T> PostAsync<T>(this HttpClient httpClient, string urlClient, T dataClient)
+        //public static async Task<T> PostAsync<T>(this HttpClient httpClient, string urlClient, T dataClient)
+        //{
+
+        //    var data = JsonSerializer.Serialize(dataClient);
+        //    var content = new StringContent(data);
+        //    content.Headers.ContentType = _contentType;
+
+
+        //    var response = await httpClient.PostAsync(urlClient, content);
+
+        //    if (!response.IsSuccessStatusCode)
+        //    {
+        //        throw new ApplicationException($"Somenthing went wrong calling the api: {response.ReasonPhrase}");
+        //    }
+
+        //    return JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        //}
+
+        //public static async Task<T> PutAsync<T>(this HttpClient httpClient, string urlClient, T dataClient)
+        //{
+        //    var data = JsonSerializer.Serialize(dataClient);
+        //    var content = new StringContent(data);
+        //    content.Headers.ContentType = _contentType;
+
+        //    var response = await httpClient.PutAsync(urlClient, content);
+
+        //    if (!response.IsSuccessStatusCode)
+        //    {
+        //        throw new ApplicationException($"Somenthing went wrong calling the api: {response.ReasonPhrase}");
+        //    }
+
+        //    return JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        //}
+
+
+        public async static Task<HttpResponseMessage> PostAsyncAsJson<T>(this HttpClient httpClient, string url, T data)
         {
-            var data = JsonSerializer.Serialize(dataClient);
-            var content = new StringContent(data);
+            var dataAsString = JsonSerializer.Serialize(data);
+            var content = new StringContent(dataAsString);
             content.Headers.ContentType = _contentType;
-
-            var response = await httpClient.PostAsync(urlClient, content);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ApplicationException($"Somenthing went wrong calling the api: {response.ReasonPhrase}");
-            }
-
-            return JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
+            return await httpClient.PostAsync(url, content);
         }
 
-        public static async Task<T> PutAsync<T>(this HttpClient httpClient, string urlClient, T dataClient)
+        public async static Task<HttpResponseMessage> PutAsyncAsJson<T>(this HttpClient httpClient, string url, T data)
         {
-            var data = JsonSerializer.Serialize(dataClient);
-            var content = new StringContent(data);
+            var dataAsString = JsonSerializer.Serialize(data);
+            var content = new StringContent(dataAsString);
             content.Headers.ContentType = _contentType;
-
-            var response = await httpClient.PutAsync(urlClient, content);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ApplicationException($"Somenthing went wrong calling the api: {response.ReasonPhrase}");
-            }
-
-            return JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return await httpClient.PutAsync(url, content);
         }
 
         public static async Task<T> ReadContentAs<T>(this HttpResponseMessage response)

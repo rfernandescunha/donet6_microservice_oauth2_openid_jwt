@@ -1,5 +1,4 @@
 using GeekShopping.Web.Clients;
-using GeekShopping.Web.Configs;
 using Microsoft.AspNetCore.Authentication;
 
 IConfiguration configuration;

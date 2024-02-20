@@ -20,8 +20,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Infra\CrossCutting\" />
-    <Folder Include="Infra\Data\Repository\" />
     <Folder Include="Views\" />
   </ItemGroup>
 

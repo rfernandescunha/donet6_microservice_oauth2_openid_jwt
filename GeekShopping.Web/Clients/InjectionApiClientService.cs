@@ -16,9 +16,12 @@ namespace GeekShopping.Web.Clients
 
             //});
 
-            var url = configuration.GetSection("ServicesUrl").GetSection("ProductApi").Value;
 
-            serviceCollection.AddHttpClient<IProductApiServices, ProductApiServices>(c => c.BaseAddress = new Uri(url));
+            serviceCollection.AddHttpClient<IProductApiService, ProductApiService>(c => c.BaseAddress = new Uri(configuration.GetSection("ServicesUrl").GetSection("ProductApi").Value));
+
+            serviceCollection.AddHttpClient<ICartApiService, CartApiService>(c => c.BaseAddress = new Uri(configuration.GetSection("ServicesUrl").GetSection("CartApi").Value));
+
+            serviceCollection.AddHttpClient<ICouponApiService, CouponApiService>(c => c.BaseAddress = new Uri(configuration.GetSection("ServicesUrl").GetSection("CouponApi").Value));
 
         }
     }
